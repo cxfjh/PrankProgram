@@ -1,0 +1,8 @@
+pyautogui
+pycaw
+psutil
+playsound
+Pillow
+comtypes
+pywin32
+
