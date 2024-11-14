@@ -1,9 +1,9 @@
-from win32api import keybd_event as keybdEvent # 导入win32api模块 用于模拟鼠标和键盘操作
-from win32con import KEYEVENTF_KEYUP as KEYUP # 导入win32con模块 用于模拟鼠标和键盘操作
-import pyautogui # 导入pyautogui模块 用于操控鼠标
-from comtypes import CLSCTX_ALL # 导入comtypes模块 用于获取系统默认音频设备
-from random import randint # 导入random模块 用于随机数生成
-from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume # 导入pycaw模块 用于获取系统默认音频设备
+import pyautogui # 操控鼠标
+from comtypes import CLSCTX_ALL # 获取系统默认音频设备
+from random import randint # 随机数生成
+from win32api import keybd_event as keybdEvent # 操控音量
+from win32con import KEYEVENTF_KEYUP as KEYUP # 操控音量
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume # 获取系统默认音频设备
 
 
 # 获取屏幕高度和宽度
@@ -24,11 +24,11 @@ def getAudioDevice():
 # 操控鼠标和键盘
 def controlMouseKeys(winHeight = getScreenSize()[0], winWidth = getScreenSize()[1], volume = getAudioDevice()):
     pyautogui.FAILSAFE = False # 关闭鼠标失效保护
-    while True: # 循环
-        try: # 捕获异常
+    while True:
+        try:
             pyautogui.moveTo(randint(1, winWidth), randint(1, winHeight)) # 鼠标相对随机位置移动
             keybdEvent(0xAF, 0, 0, 0)  # 按下音量减键
             keybdEvent(0xAF, 0, KEYUP, 0)  # 松开音量减键
             volume.SetMasterVolumeLevel(0, None) # 音量最大化
-        except: pass # 忽略错误
+        except: pass
 

